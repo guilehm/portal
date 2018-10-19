@@ -24,7 +24,7 @@ class Machine(models.Model):
 class Worker(models.Model):
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
-    doc = models.CharField(max_length=20, null=True, blank=True, db_index=True)
+    doc = models.CharField(max_length=20, null=True, blank=True, db_index=True, unique=True)
     home_phone_number = models.CharField(max_length=20, null=True, blank=True)
     cell_phone_number = models.CharField(max_length=20, null=True, blank=True)
     active = models.BooleanField(default=True, db_index=True)

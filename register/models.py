@@ -27,14 +27,19 @@ class Worker(models.Model):
     doc = models.CharField(max_length=20, null=True, blank=True, db_index=True)
     home_phone_number = models.CharField(max_length=20, null=True, blank=True)
     cell_phone_number = models.CharField(max_length=20, null=True, blank=True)
+    active = models.BooleanField(default=True, db_index=True)
     # TODO: ForeignKey to User
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
 
     @cached_property
-    def phone_number(self):
-        return self.cell_phone_number or self.home_phone_number or ''
+    def code(self):
+        return f'{self.id:8}'
 
     @cached_property
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
+
+    @cached_property
+    def phone_number(self):
+        return self.cell_phone_number or self.home_phone_number or ''

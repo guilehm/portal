@@ -34,7 +34,7 @@ class Worker(models.Model):
 
     @cached_property
     def code(self):
-        return f'{self.id:8}'
+        return f'{self.id:}'.zfill(6)
 
     @cached_property
     def full_name(self):

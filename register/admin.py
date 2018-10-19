@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from register.models import Worker, Category
+from register.models import Category, Message, Worker
 
 
 @admin.register(Worker)
@@ -15,3 +15,10 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('code', 'description', 'active')
     search_fields = ('description',)
     list_filter = ('active', 'date_added', 'date_changed')
+
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('code', 'title')
+    search_fields = ('title', 'description')
+    list_filter = ('date_added', 'date_changed')

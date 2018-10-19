@@ -43,3 +43,21 @@ class Worker(models.Model):
     @cached_property
     def phone_number(self):
         return self.cell_phone_number or self.home_phone_number or ''
+
+
+class Category(models.Model):
+    description = models.CharField(max_length=100)
+    active = models.BooleanField(default=True, db_index=True)
+
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_changed = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.description
+
+    @cached_property
+    def code(self):
+        return f'{self.id:}'.zfill(3)
+
+    class Meta:
+        verbose_name_plural = 'Categories'

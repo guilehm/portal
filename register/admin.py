@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from register.models import Category, Message, Worker
+from register.models import Category, Message, Picture, Worker
 
 
 @admin.register(Worker)
@@ -21,4 +21,10 @@ class CategoryAdmin(admin.ModelAdmin):
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('code', 'title')
     search_fields = ('title', 'description')
+    list_filter = ('date_added', 'date_changed')
+
+
+@admin.register(Picture)
+class PictureAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'image', 'date_added')
     list_filter = ('date_added', 'date_changed')

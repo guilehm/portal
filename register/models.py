@@ -82,3 +82,19 @@ class Message(models.Model):
         return '{short_message}...'.format(
             short_message=self.message[:10]
         )
+
+
+class Picture(models.Model):
+    title = models.CharField(max_length=100, null=True, blank=True)
+    image = models.ImageField(
+        upload_to='register/picture/image'
+    )
+
+    date_added = models.DateTimeField(auto_now_add=True, db_index=True)
+    date_changed = models.DateTimeField(auto_now=True, db_index=True)
+
+    def __str__(self):
+        return 'Picture #{id} ({title})'.format(
+            id=self.id,
+            title=self.title or 'Untitled'
+        )

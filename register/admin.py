@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from register.models import Category, Message, Worker, Picture
+from register.models import Category, Message, Picture, Worker
 
 
 @admin.register(Worker)

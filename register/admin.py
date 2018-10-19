@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from register.models import Worker, Category
+from register.models import Category, Worker
 
 
 @admin.register(Worker)

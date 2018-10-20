@@ -1,3 +1,6 @@
+import os
+import uuid
+
 from django.db import models
 from django.utils.functional import cached_property
 
@@ -141,6 +144,25 @@ class Picture(models.Model):
             id=self.id,
             title=self.title or 'Untitled'
         )
+
+
+class DataFile(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    file = models.FileField(upload_to='register/datafile/file')
+    original_file_name = models.CharField(max_length=500, blank=True, null=True)
+    extension = models.CharField(max_length=200, blank=True, null=True)
+
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_changed = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.id)
+
+    def save(self, *args, **kwargs):
+        filename, extension = os.path.splitext(self.file.name)
+        self.original_file_name = filename.strip()
+        self.extension = extension.strip().lower()
+        super().save(*args, **kwargs)
 
 
 class Address(models.Model):

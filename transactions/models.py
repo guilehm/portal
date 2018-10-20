@@ -82,3 +82,22 @@ class ServiceOrder(models.Model):
             id=self.id,
             subject=self.subject
         )
+
+
+class Request(models.Model):
+    category = models.ForeignKey(
+        'register.Category',
+        related_name='requests',
+        on_delete=models.CASCADE
+    )
+    machine = models.ForeignKey(
+        'register.Machine',
+        related_name='requests',
+        on_delete=models.CASCADE
+    )
+    subject = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now_add=True)
+    # TODO: Requester - ForeignKey to Customer
+
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_changed = models.DateTimeField(auto_now=True)

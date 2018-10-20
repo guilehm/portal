@@ -160,7 +160,7 @@ class DataFile(models.Model):
 
     def save(self, *args, **kwargs):
         filename, extension = os.path.splitext(self.file.name)
-        self.original_file_name = filename.strip()
+        self.original_file_name = os.path.basename(filename).strip()
         self.extension = extension.strip().lower()
         super().save(*args, **kwargs)
 

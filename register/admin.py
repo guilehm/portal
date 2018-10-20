@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from register.models import Address, Category, Company, Machine, Message, Picture, Worker
+from register.models import Address, Category, Company, DataFile, Machine, Message, Picture, Worker
 
 
 @admin.register(Company)
@@ -47,3 +47,10 @@ class AddressAdmin(admin.ModelAdmin):
     list_display = ('address', 'district', 'city', 'state')
     list_filter = ('city', 'state')
     search_fields = ('address', 'district')
+
+
+@admin.register(DataFile)
+class DataFileAdmin(admin.ModelAdmin):
+    list_filter = ('extension',)
+    list_display = ('id', 'original_file_name', 'extension')
+    search_fields = ('original_file_name',)

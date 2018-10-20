@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from register.models import Category, Message, Picture, Worker, Machine
+from register.models import Address, Category, Company, Machine, Message, Picture, Worker
+
+
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'registered_number', 'email')
 
 
 @admin.register(Machine)
@@ -35,3 +40,10 @@ class MessageAdmin(admin.ModelAdmin):
 class PictureAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'image', 'date_added')
     list_filter = ('date_added', 'date_changed')
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('address', 'district', 'city', 'state')
+    list_filter = ('city', 'state')
+    search_fields = ('address', 'district')

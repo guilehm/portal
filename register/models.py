@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 from django.db import models
 from django.utils.functional import cached_property
 
@@ -61,32 +62,24 @@ class Machine(models.Model):
 class Worker(models.Model):
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
-    doc = models.CharField(max_length=20, null=True, blank=True, db_index=True, unique=True)
-    home_phone_number = models.CharField(max_length=20, null=True, blank=True)
-    cell_phone_number = models.CharField(max_length=20, null=True, blank=True)
     active = models.BooleanField(default=True, db_index=True)
-    # TODO: ForeignKey to User
-    address = models.ForeignKey(
-        'register.Address',
-        related_name='workers',
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
-        null=True,
         blank=True,
+        null=True
     )
+
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
 
     @cached_property
     def code(self):
-        return f'{self.id:}'.zfill(6)
+        return f'{self.id:}'.zfill(3)
 
     @cached_property
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
-
-    @cached_property
-    def phone_number(self):
-        return self.cell_phone_number or self.home_phone_number or ''
 
 
 class Category(models.Model):

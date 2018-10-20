@@ -1,6 +1,13 @@
 from django.contrib import admin
 
-from register.models import Category, Message, Picture, Worker
+from register.models import Category, Message, Picture, Worker, Machine
+
+
+@admin.register(Machine)
+class MachineAdmin(admin.ModelAdmin):
+    list_display = ('code', 'model', 'serial_number', 'active')
+    list_filter = ('model', 'active')
+    search_fields = ('code', 'description', 'model', 'serial_number')
 
 
 @admin.register(Worker)

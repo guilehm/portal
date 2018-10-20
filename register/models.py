@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.functional import cached_property
 
@@ -144,3 +145,32 @@ class Address(models.Model):
 
     class Meta:
         verbose_name_plural = 'Addresses'
+
+
+class User(AbstractUser):
+    company = models.ForeignKey(
+        'register.Company',
+        related_name='users',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    doc = models.CharField(max_length=20, null=True, blank=True, db_index=True, unique=True)
+    home_phone_number = models.CharField(max_length=20, null=True, blank=True)
+    cell_phone_number = models.CharField(max_length=20, null=True, blank=True)
+    work_phone_number = models.CharField(max_length=20, null=True, blank=True)
+    address = models.ForeignKey(
+        'register.Address',
+        related_name='users',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    @property
+    def phone_number(self):
+        return self.cell_phone_number or self.home_phone_number or self.work_phone_number or ''
+
+    @cached_property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'

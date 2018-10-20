@@ -1,9 +1,20 @@
+from django.conf import settings
 from django.db import models
 from django.utils.functional import cached_property
 
 
 class Event(models.Model):
-    # TODO: ForeignKey to Customer
+    customer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='events',
+        on_delete=models.CASCADE,
+    )
+    company = models.ForeignKey(
+        'register.Company',
+        null=True,
+        editable=False,
+        on_delete=models.CASCADE
+    )
     machine = models.ForeignKey(
         'register.Machine',
         related_name='events',
@@ -19,6 +30,7 @@ class Event(models.Model):
     pictures = models.ManyToManyField(
         'files.Picture',
         related_name='events',
+        blank=True,
     )
 
     date_added = models.DateTimeField(auto_now_add=True)
@@ -29,6 +41,15 @@ class Event(models.Model):
             id=self.id,
             subject=self.subject
         )
+
+    @cached_property
+    def code(self):
+        return f'{self.id:}'.zfill(6)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.company = self.customer.company
+        super().save(*args, **kwargs)
 
 
 class ServiceOrder(models.Model):
@@ -47,7 +68,17 @@ class ServiceOrder(models.Model):
         related_name='service_orders',
         on_delete=models.CASCADE,
     )
-    # TODO: ForeignKey to Customer
+    customer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='service_orders',
+        on_delete=models.CASCADE,
+    )
+    company = models.ForeignKey(
+        'register.Company',
+        null=True,
+        editable=False,
+        on_delete=models.CASCADE
+    )
     machine = models.ForeignKey(
         'register.Machine',
         related_name='service_orders',
@@ -68,6 +99,7 @@ class ServiceOrder(models.Model):
     pictures = models.ManyToManyField(
         'files.Picture',
         related_name='service_orders',
+        blank=True,
     )
 
     date_added = models.DateTimeField(auto_now_add=True)
@@ -83,6 +115,11 @@ class ServiceOrder(models.Model):
             subject=self.subject
         )
 
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.company = self.customer.company
+        super().save(*args, **kwargs)
+
 
 class Request(models.Model):
     category = models.ForeignKey(
@@ -93,15 +130,22 @@ class Request(models.Model):
     machine = models.ForeignKey(
         'register.Machine',
         related_name='requests',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
     subject = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
     files = models.ManyToManyField(
         'files.DataFile',
-        related_name='requests'
+        related_name='requests',
+        blank=True
     )
-    # TODO: Requester - ForeignKey to Customer
+    requester = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='requests',
+        on_delete=models.CASCADE
+    )
 
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)

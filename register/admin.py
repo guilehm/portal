@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from register.models import Address, Category, Company, DataFile, Machine, Message, Picture, Worker
+from register.models import Address, Category, Company, Machine, Message, Worker
 
 
 @admin.register(Company)
@@ -36,21 +36,8 @@ class MessageAdmin(admin.ModelAdmin):
     list_filter = ('date_added', 'date_changed')
 
 
-@admin.register(Picture)
-class PictureAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'image', 'date_added')
-    list_filter = ('date_added', 'date_changed')
-
-
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     list_display = ('address', 'district', 'city', 'state')
     list_filter = ('city', 'state')
     search_fields = ('address', 'district')
-
-
-@admin.register(DataFile)
-class DataFileAdmin(admin.ModelAdmin):
-    list_filter = ('extension',)
-    list_display = ('id', 'original_file_name', 'extension')
-    search_fields = ('original_file_name',)

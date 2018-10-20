@@ -17,7 +17,7 @@ class Event(models.Model):
     subject = models.CharField(max_length=100)
     description = models.TextField()
     pictures = models.ManyToManyField(
-        'register.Picture',
+        'files.Picture',
         related_name='events',
     )
 
@@ -66,7 +66,7 @@ class ServiceOrder(models.Model):
     subject = models.CharField(max_length=100)
     description = models.TextField()
     pictures = models.ManyToManyField(
-        'register.Picture',
+        'files.Picture',
         related_name='service_orders',
     )
 
@@ -97,7 +97,21 @@ class Request(models.Model):
     )
     subject = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
+    files = models.ManyToManyField(
+        'files.DataFile',
+        related_name='requests'
+    )
     # TODO: Requester - ForeignKey to Customer
 
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'Request #{id} ({subject})'.format(
+            id=self.id,
+            subject=self.subject
+        )
+
+    @cached_property
+    def code(self):
+        return f'{self.id:}'.zfill(6)

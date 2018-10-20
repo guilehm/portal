@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from transactions.models import Event, ServiceOrder
+from transactions.models import Event, Request, ServiceOrder
 
 
 @admin.register(Event)
@@ -14,3 +14,10 @@ class ServiceOrderAdmin(admin.ModelAdmin):
     list_display = ('code', 'event', 'category', 'machine', 'priority')
     list_filter = ('category', 'priority')
     search_fields = ('event', 'category', 'subject', 'description')
+
+
+@admin.register(Request)
+class RequestAdmin(admin.ModelAdmin):
+    list_display = ('code', 'category', 'machine', 'date')
+    list_filter = ('category', 'date')
+    search_fields = ('subject', 'machine', 'category')

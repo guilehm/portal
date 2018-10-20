@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from register.models import User
-from register.models import Address, Category, Company, Machine, Message, Worker
+
+from register.models import Address, Category, Company, Machine, Message, User, Worker
 
 
 @admin.register(Company)

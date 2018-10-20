@@ -10,6 +10,7 @@ isort = "*"
 django-debug-toolbar = "*"
 django-extensions = "*"
 pillow = "*"
+django-pytest = "*"
 
 [dev-packages]
 

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.functional import cached_property
 
 
 class Event(models.Model):
@@ -23,11 +24,18 @@ class Event(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return 'Event #{id} ({subject})'.format(
+            id=self.id,
+            subject=self.subject
+        )
+
 
 class ServiceOrder(models.Model):
     LOW = 'low'
     NORMAL = 'normal'
     HIGH = 'high'
+
     PRIORITY_CHOICES = (
         (LOW, 'Low'),
         (NORMAL, 'Normal'),
@@ -61,3 +69,16 @@ class ServiceOrder(models.Model):
         'register.Picture',
         related_name='service_orders',
     )
+
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_changed = models.DateTimeField(auto_now=True)
+
+    @cached_property
+    def code(self):
+        return f'{self.id:}'.zfill(6)
+
+    def __str__(self):
+        return 'Service Order #{id} ({subject})'.format(
+            id=self.id,
+            subject=self.subject
+        )

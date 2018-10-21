@@ -25,7 +25,7 @@ def login_view(request):
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
-        
+
     if request.method != 'POST':
         form = AuthenticationForm()
     else:

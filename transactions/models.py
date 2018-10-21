@@ -1,5 +1,8 @@
+from decimal import Decimal
+
 from django.conf import settings
 from django.db import models
+from django.db.models import DecimalField, F, Sum
 from django.utils.functional import cached_property
 
 
@@ -11,6 +14,7 @@ class Event(models.Model):
     )
     company = models.ForeignKey(
         'register.Company',
+        related_name='events',
         null=True,
         editable=False,
         on_delete=models.CASCADE
@@ -26,7 +30,7 @@ class Event(models.Model):
         on_delete=models.CASCADE,
     )
     subject = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     pictures = models.ManyToManyField(
         'files.Picture',
         related_name='events',
@@ -75,6 +79,7 @@ class ServiceOrder(models.Model):
     )
     company = models.ForeignKey(
         'register.Company',
+        related_name='service_orders',
         null=True,
         editable=False,
         on_delete=models.CASCADE
@@ -159,3 +164,95 @@ class Request(models.Model):
     @cached_property
     def code(self):
         return f'{self.id:}'.zfill(6)
+
+
+class DebitNote(models.Model):
+    OPEN = 'open'
+    CLOSED = 'closed'
+
+    STATUS_CHOICES = (
+        (OPEN, 'Open'),
+        (CLOSED, 'Closed'),
+    )
+
+    customer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='debit_notes',
+        on_delete=models.CASCADE,
+    )
+    company = models.ForeignKey(
+        'register.Company',
+        related_name='debit_notes',
+        editable=False,
+        on_delete=models.CASCADE
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        db_index=True
+    )
+    reference = models.CharField(max_length=100)
+    comments = models.TextField(blank=True, null=True)
+    service_order = models.ForeignKey(
+        'transactions.ServiceOrder',
+        related_name='debit_notes',
+        on_delete=models.CASCADE,
+    )
+
+    date_added = models.DateTimeField(auto_now_add=True, db_index=True)
+    date_changed = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'Debit Note #{id} ({code})'.format(
+            id=self.id,
+            code=self.code
+        )
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.company = self.customer.company
+        super().save(*args, **kwargs)
+
+    @cached_property
+    def code(self):
+        return f'{self.id:}'.zfill(6)
+
+    @property
+    def total(self):
+        total = self.debit_note_items.aggregate(
+            total=Sum(
+                F('price') * F('quantity'),
+                output_field=DecimalField(),
+            )
+        )['total']
+        return total or Decimal('0.0')
+
+
+class DebitNoteItem(models.Model):
+    debit_note = models.ForeignKey(
+        'transactions.DebitNote',
+        related_name='debit_note_items',
+        on_delete=models.CASCADE,
+    )
+    date = models.DateField()
+    description = models.CharField(max_length=200, blank=True, null=True)
+    quantity = models.DecimalField(max_digits=8, decimal_places=2)
+    unity_of_measure = models.CharField(max_length=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    total = models.DecimalField(max_digits=8, decimal_places=2, editable=False)
+
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_changed = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'Debit Note Item #{id} Debit Note #({debit_note_code})'.format(
+            id=self.id,
+            debit_note_code=self.debit_note.code
+        )
+
+    def code(self):
+        return f'{self.id:}'.zfill(6)
+
+    def save(self, *args, **kwargs):
+        self.total = self.price * self.quantity
+        super().save(*args, **kwargs)

@@ -1,10 +1,11 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
 
 
-class Company(models.Model):
+class MainCompany(models.Model):
     name = models.CharField(max_length=50)
     commercial_name = models.CharField(max_length=100, blank=True, null=True)
     registered_number = models.CharField(max_length=20, unique=True, db_index=True, null=True, blank=True)
@@ -22,19 +23,53 @@ class Company(models.Model):
     logo_thumb = models.ImageField(
         null=True,
         blank=True,
-        upload_to='register/company/logo-thumb',
+        upload_to='register/main-company/logo-thumb',
     )
     logo = models.ImageField(
         null=True,
         blank=True,
-        upload_to='register/company/logo',
+        upload_to='register/main-company/logo',
     )
 
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name_plural = 'Companies'
+        verbose_name_plural = 'main company'
+
+    def __str__(self):
+        return self.name
+
+    def clean(self):
+        if MainCompany.objects.exists() and not self.pk:
+            raise ValidationError('Only one main company is allowed')
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+
+class Company(models.Model):
+    name = models.CharField(max_length=50)
+    commercial_name = models.CharField(max_length=100, blank=True, null=True)
+    registered_number = models.CharField(max_length=20, unique=True, db_index=True, null=True, blank=True)
+    email = models.EmailField(max_length=200, db_index=True, null=True, blank=True)
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
+    website = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    address = models.ForeignKey(
+        'register.Address',
+        related_name='companies',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_changed = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'companies'
 
     def __str__(self):
         return self.name
@@ -158,7 +193,6 @@ class User(AbstractUser):
         related_name='users',
         on_delete=models.CASCADE,
         null=True,
-        blank=True,
     )
     doc = models.CharField(max_length=20, null=True, blank=True, db_index=True, unique=True)
     home_phone_number = models.CharField(max_length=20, null=True, blank=True)

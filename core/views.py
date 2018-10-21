@@ -1,12 +1,17 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+# from django.contrib.gis.geoip2 import GeoIP2
 from django.shortcuts import redirect, render
+from django.utils import timezone
 
 
 @login_required
 def index(request):
-    return render(request, 'core/index.html')
+    now = timezone.now()
+    return render(request, 'core/index.html', {
+        'now': now,
+    })
 
 
 def logout_view(request):
@@ -15,6 +20,12 @@ def logout_view(request):
 
 
 def login_view(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+        
     if request.method != 'POST':
         form = AuthenticationForm()
     else:
@@ -26,4 +37,7 @@ def login_view(request):
             )
             login(request, authenticated_user)
             return redirect('core:index')
-    return render(request, 'core/login.html', {'form': form})
+    return render(request, 'core/login.html', {
+        'form': form,
+        'ip': ip,
+    })

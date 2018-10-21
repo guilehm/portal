@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django.conf import settings
 from django.db import models
-from django.db.models import F, Sum, DecimalField
+from django.db.models import DecimalField, F, Sum
 from django.utils.functional import cached_property
 
 

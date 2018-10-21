@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from transactions.models import Event, Request, ServiceOrder
+from transactions.models import DebitNote, DebitNoteItem, Event, Request, ServiceOrder
+
+
+class DebitNoteItemInline(admin.TabularInline):
+    model = DebitNoteItem
+    extra = 0
+    raw_id_fields = ('debit_note',)
 
 
 @admin.register(Event)
@@ -23,3 +29,23 @@ class RequestAdmin(admin.ModelAdmin):
     list_display = ('code', 'category', 'machine', 'date')
     list_filter = ('category', 'date')
     search_fields = ('subject', 'machine', 'category')
+
+
+@admin.register(DebitNote)
+class DebitNoteAdmin(admin.ModelAdmin):
+    list_display = ('code', 'reference', 'service_order', 'company', 'status')
+    list_filter = (
+        'status',
+        ('company', admin.RelatedOnlyFieldListFilter)
+    )
+    search_fields = ('reference', 'comments', 'company')
+    readonly_fields = ('company',)
+    inlines = (DebitNoteItemInline,)
+
+
+@admin.register(DebitNoteItem)
+class DebitNoteItemAdmin(admin.ModelAdmin):
+    list_display = ('code', 'debit_note', 'total')
+    list_filter = ('date',)
+    search_fields = ('description',)
+    readonly_fields = ('total',)

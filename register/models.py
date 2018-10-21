@@ -193,7 +193,6 @@ class User(AbstractUser):
         related_name='users',
         on_delete=models.CASCADE,
         null=True,
-        blank=True,
     )
     doc = models.CharField(max_length=20, null=True, blank=True, db_index=True, unique=True)
     home_phone_number = models.CharField(max_length=20, null=True, blank=True)

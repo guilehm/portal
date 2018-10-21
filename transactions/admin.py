@@ -33,13 +33,13 @@ class RequestAdmin(admin.ModelAdmin):
 
 @admin.register(DebitNote)
 class DebitNoteAdmin(admin.ModelAdmin):
-    list_display = ('code', 'reference', 'service_order', 'company', 'status')
+    list_display = ('code', 'reference', 'service_order', 'company', 'status', 'total')
     list_filter = (
         'status',
         ('company', admin.RelatedOnlyFieldListFilter)
     )
     search_fields = ('reference', 'comments', 'company')
-    readonly_fields = ('company',)
+    readonly_fields = ('company', 'total')
     inlines = (DebitNoteItemInline,)
 
 

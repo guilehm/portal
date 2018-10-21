@@ -1,5 +1,8 @@
+from decimal import Decimal
+
 from django.conf import settings
 from django.db import models
+from django.db.models import F, Sum, DecimalField
 from django.utils.functional import cached_property
 
 
@@ -180,7 +183,6 @@ class DebitNote(models.Model):
     company = models.ForeignKey(
         'register.Company',
         related_name='debit_notes',
-        null=True,
         editable=False,
         on_delete=models.CASCADE
     )
@@ -214,6 +216,16 @@ class DebitNote(models.Model):
     @cached_property
     def code(self):
         return f'{self.id:}'.zfill(6)
+
+    @property
+    def total(self):
+        total = self.debit_note_items.aggregate(
+            total=Sum(
+                F('price') * F('quantity'),
+                output_field=DecimalField(),
+            )
+        )['total']
+        return total or Decimal('0.0')
 
 
 class DebitNoteItem(models.Model):

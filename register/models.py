@@ -55,6 +55,13 @@ class Worker(models.Model):
     cell_phone_number = models.CharField(max_length=20, null=True, blank=True)
     active = models.BooleanField(default=True, db_index=True)
     # TODO: ForeignKey to User
+    address = models.ForeignKey(
+        'register.Address',
+        related_name='workers',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
 

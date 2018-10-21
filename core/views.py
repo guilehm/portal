@@ -1,12 +1,17 @@
-from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect, render
 
 
 @login_required
 def index(request):
     return render(request, 'core/index.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('core:index')
 
 
 def login_view(request):

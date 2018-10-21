@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from register.models import Category, Message, Picture, Worker, Machine
+from register.models import Address, Category, Company, Machine, Message, Picture, Worker
+
+
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'registered_number', 'email')
 
 
 @admin.register(Machine)

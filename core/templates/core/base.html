@@ -1,161 +1,201 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Portal</title>
-        <!-- plugins:css -->
-        <link rel="stylesheet" href="{% static 'core/css/materialdesignicons.min.css' %}">
-        <link rel="stylesheet" href="{% static 'core/css/vendor.bundle.addons.css' %}">
-        <link rel="stylesheet" href="{% static 'core/css/vendor.bundle.base.css' %}">
-        <link rel="stylesheet" href="{% static 'core/css/font-awesome.min.css' %}">
-        <!-- endinject -->
-        <!-- inject:css -->
-        <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
-        <!-- endinject -->
-        <link rel="shortcut icon" href="images/favicon.png" />
-        {% block css %}
-        {% endblock %}
-    </head>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Portal</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'core/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/vendor.bundle.addons.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/font-awesome.min.css' %}">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="images/favicon.png"/>
+    {% block css %}
+    {% endblock %}
+</head>
 
-    <body>
-        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-                <a class="navbar-brand brand-logo" href="index.html">
+<body>
+<nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+        <a class="navbar-brand brand-logo" href="index.html">
 
+        </a>
+        <a class="navbar-brand brand-logo-mini" href="index.html">
+
+        </a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center">
+        <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item dropdown d-none d-xl-inline-block">
+                <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown"
+                   aria-expanded="false">
+                    <span class="profile-text">
+                        Olá,
+                        {% if user.is_authenticated %}
+                            {% if user.first_name %}
+                                {{ user.first_name }}
+                            {% else %}
+                                {{ user.username }}
+                            {% endif %}
+                        {% endif %}
+                    </span>
+                    <img class="img-xs rounded-circle" src="{% static 'core/img/profile-placeholder.jpg' %}">
                 </a>
-                <a class="navbar-brand brand-logo-mini" href="index.html">
-
-                </a>
-            </div>
-            <div class="navbar-menu-wrapper d-flex align-items-center">
-
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-                    <span class="mdi mdi-menu"></span>
-                </button>
-            </div>
-        </nav>
-
-        <div class="container-fluid page-body-wrapper">
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                <ul class="nav">
-                    <li class="nav-item nav-profile">
-                        <div class="nav-link">
-                            <div class="user-wrapper">
-                                <div class="profile-image">
-
-                                </div>
-                                <div class="text-wrapper">
-                                    {% if user.is_authenticated %}
-                                        <p class="profile-name">
-                                            {% if user.first_name %}
-                                                {{ user.first_name }}
-                                            {% else %}
-                                                {{ user.username }}
-                                            {% endif %}
-                                            <span class="status-indicator online"></span>
-                                        </p>
-                                    {% endif %}
-                                    <div>
-                                    </div>
-                                </div>
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                    <a class="dropdown-item p-0">
+                        <div class="d-flex border-bottom">
+                            <div class="py-3 px-4 d-flex align-items-center justify-content-center">
+                                <i class="mdi mdi-bookmark-plus-outline mr-0 text-gray"></i>
                             </div>
-                            <button class="btn btn-success btn-block">Painel
-                            </button>
+                            <div class="py-3 px-4 d-flex align-items-center justify-content-center border-left border-right">
+                                <i class="mdi mdi-account-outline mr-0 text-gray"></i>
+                            </div>
+                            <div class="py-3 px-4 d-flex align-items-center justify-content-center">
+                                <i class="mdi mdi-alarm-check mr-0 text-gray"></i>
+                            </div>
                         </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-register" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="menu-icon mdi mdi-content-copy"></i>
-                            <span class="menu-title">Cadastros</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-register">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Categorias</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Equipamentos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Mensagens Padrão</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Técnicos</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-transactions" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="menu-icon mdi mdi-backup-restore"></i>
-                            <span class="menu-title">Movimentações</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-transactions">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Chamados</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Ordens de Serviço</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Solicitações</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Notas de Débito</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-settings" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="menu-icon mdi mdi-settings"></i>
-                            <span class="menu-title">Configurações</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-settings">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Usuários</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">Grupos</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        {% block content %}
-        {% endblock %}
+                    </a>
+                    <a class="dropdown-item" href="{% url 'core:logout' %}">
+                        Sair
+                    </a>
+                </div>
+            </li>
+        </ul>
 
-        <footer class="footer">
-            <div class="container-fluid clearfix">
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                data-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+        </button>
+    </div>
+</nav>
+
+<div class="container-fluid page-body-wrapper">
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+            <li class="nav-item nav-profile">
+                <div class="nav-link">
+                    <div class="user-wrapper">
+                        <div class="profile-image">
+                            <img src="{% static 'core/img/profile-placeholder.jpg' %}" alt="image" class="profile-pic">
+                        </div>
+                        <div class="text-wrapper">
+                            {% if user.is_authenticated %}
+                                <p class="profile-name">
+                                    {% if user.first_name %}
+                                        {{ user.first_name }}
+                                    {% else %}
+                                        {{ user.username }}
+                                    {% endif %}
+                                    <span class="status-indicator online"></span>
+                                </p>
+                            {% endif %}
+                            <div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success btn-block">Painel
+                    </button>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#ui-register" aria-expanded="false"
+                   aria-controls="ui-basic">
+                    <i class="menu-icon mdi mdi-content-copy"></i>
+                    <span class="menu-title">Cadastros</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-register">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Categorias</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Equipamentos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Mensagens Padrão</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Técnicos</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#ui-transactions" aria-expanded="false"
+                   aria-controls="ui-basic">
+                    <i class="menu-icon mdi mdi-backup-restore"></i>
+                    <span class="menu-title">Movimentações</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-transactions">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Chamados</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Ordens de Serviço</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Solicitações</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Notas de Débito</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#ui-settings" aria-expanded="false"
+                   aria-controls="ui-basic">
+                    <i class="menu-icon mdi mdi-settings"></i>
+                    <span class="menu-title">Configurações</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-settings">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Usuários</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Grupos</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</div>
+{% block content %}
+{% endblock %}
+
+<footer class="footer">
+    <div class="container-fluid clearfix">
                 <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018
                 </span>
-            </div>
-        </footer>
-        <!-- plugins:js -->
-        <script src="{% static 'core/js/vendor.bundle.base.js' %}"></script>
-        <script src="{% static 'core/js/vendor.bundle.addons.js' %}"></script>
-        <!-- endinject -->
-        <!-- Plugin js for this page-->
-        <!-- End plugin js for this page-->
-        <!-- inject:js -->
-        <script src="{% static 'core/js/off-canvas.js' %}"></script>
-        <script src="{% static 'core/js/misc.js' %}"></script>
-        <!-- endinject -->
-        <!-- Custom js for this page-->
-        <script src="{% static 'core/js/dashboard.js' %}"></script>
-        <!-- End custom js for this page-->
-        {% block js %}
-        {% endblock %}
-    </body>
+    </div>
+</footer>
+<!-- plugins:js -->
+<script src="{% static 'core/js/vendor.bundle.base.js' %}"></script>
+<script src="{% static 'core/js/vendor.bundle.addons.js' %}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script src="{% static 'core/js/off-canvas.js' %}"></script>
+<script src="{% static 'core/js/misc.js' %}"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="{% static 'core/js/dashboard.js' %}"></script>
+<!-- End custom js for this page-->
+{% block js %}
+{% endblock %}
+</body>
 
 </html>

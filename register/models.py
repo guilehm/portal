@@ -124,3 +124,22 @@ class Picture(models.Model):
             id=self.id,
             title=self.title or 'Untitled'
         )
+
+
+class Address(models.Model):
+    postal_code = models.CharField(max_length=10, db_index=True)
+    address = models.CharField(max_length=50, null=True, blank=True)
+    number = models.CharField(max_length=10, null=True, blank=True)
+    complement = models.CharField(max_length=20, null=True, blank=True)
+    district = models.CharField(max_length=20, null=True, blank=True)
+    city = models.CharField(max_length=30, null=True, blank=True)
+    state = models.CharField(max_length=2, blank=True, null=True)
+
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_changed = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.address
+
+    class Meta:
+        verbose_name_plural = 'Addresses'

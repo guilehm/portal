@@ -11,6 +11,10 @@ django-debug-toolbar = "*"
 django-extensions = "*"
 pillow = "*"
 django-pytest = "*"
+dj-database-url = "*"
+dj-static = "*"
+"static3" = "*"
+"psycopg2" = "*"
 
 [dev-packages]
 

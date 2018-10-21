@@ -40,3 +40,10 @@ class MessageAdmin(admin.ModelAdmin):
 class PictureAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'image', 'date_added')
     list_filter = ('date_added', 'date_changed')
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('address', 'district', 'city', 'state')
+    list_filter = ('city', 'state')
+    search_fields = ('address', 'district')

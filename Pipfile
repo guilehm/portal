@@ -15,6 +15,7 @@ dj-database-url = "*"
 dj-static = "*"
 "static3" = "*"
 "psycopg2" = "*"
+gunicorn = "*"
 
 [dev-packages]
 

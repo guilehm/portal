@@ -2,6 +2,32 @@ from django.db import models
 from django.utils.functional import cached_property
 
 
+class Company(models.Model):
+    name = models.CharField(max_length=50)
+    commercial_name = models.CharField(max_length=100, blank=True, null=True)
+    registered_number = models.CharField(max_length=20, unique=True, db_index=True, null=True, blank=True)
+    email = models.EmailField(max_length=200, db_index=True, null=True, blank=True)
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
+    website = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    address = models.ForeignKey(
+        'register.Address',
+        related_name='entities',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_changed = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'Companies'
+
+    def __str__(self):
+        return self.name
+
+
 class Machine(models.Model):
     code = models.CharField(max_length=100, db_index=True)
     description = models.CharField(max_length=200, blank=True, null=True)

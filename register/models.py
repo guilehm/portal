@@ -23,12 +23,12 @@ class MainCompany(models.Model):
     logo_thumb = models.ImageField(
         null=True,
         blank=True,
-        upload_to='register/main-company/logo-thumb',
+        upload_to='register/maincompany/logothumb',
     )
     logo = models.ImageField(
         null=True,
         blank=True,
-        upload_to='register/main-company/logo',
+        upload_to='register/maincompany/logo',
     )
 
     date_added = models.DateTimeField(auto_now_add=True)

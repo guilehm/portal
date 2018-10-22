@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-# from django.contrib.gis.geoip2 import GeoIP2
 from django.shortcuts import redirect, render
 from django.utils import timezone
 

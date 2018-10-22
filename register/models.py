@@ -169,7 +169,7 @@ class Message(models.Model):
 
 
 class Address(models.Model):
-    postal_code = models.CharField(max_length=10, db_index=True)
+    postal_code = models.CharField(max_length=10, blank=True, null=True, db_index=True)
     address = models.CharField(max_length=50, null=True, blank=True)
     number = models.CharField(max_length=10, null=True, blank=True)
     complement = models.CharField(max_length=20, null=True, blank=True)

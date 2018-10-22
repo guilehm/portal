@@ -1,6 +1,6 @@
 from django import template
-from register.models import MainCompany
 
+from register.models import MainCompany
 
 register = template.Library()
 

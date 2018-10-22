@@ -16,6 +16,8 @@ dj-static = "*"
 "static3" = "*"
 "psycopg2" = "*"
 gunicorn = "*"
+"boto3" = "*"
+django-storages = "*"
 whitenoise = "*"
 
 [dev-packages]

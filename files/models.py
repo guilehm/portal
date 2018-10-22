@@ -26,7 +26,7 @@ class DataFile(models.Model):
 class Picture(models.Model):
     title = models.CharField(max_length=100, null=True, blank=True)
     image = models.ImageField(
-        upload_to='register/picture/image'
+        upload_to='core/register/picture/image'
     )
 
     date_added = models.DateTimeField(auto_now_add=True, db_index=True)

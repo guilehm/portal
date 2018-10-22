@@ -1,0 +1,6 @@
+{% load static %}
+{% if logo %}
+    <img src="{{ logo.url }}" alt="logo">
+{% else %}
+    <img src="{% static 'core/images/samples/picture-placeholder.jpg' %}">
+{% endif %}

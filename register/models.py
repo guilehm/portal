@@ -213,3 +213,22 @@ class User(AbstractUser):
     @cached_property
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
+
+
+class City(models.Model):
+    ibge_code = models.CharField(max_length=100, editable=False, unique=True, db_index=True)
+    name = models.CharField(max_length=100, editable=False, db_index=True)
+    state_code = models.CharField(max_length=2, editable=False, db_index=True)
+    state = models.CharField(max_length=100, editable=False)
+    SIC = models.CharField(max_length=100, editable=False)
+    SCI = models.CharField(max_length=100, editable=False)
+
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_changed = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'cities'
+        ordering = ('state_code', 'name')

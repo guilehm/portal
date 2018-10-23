@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 
-from register.models import Address, Category, Company, Machine, MainCompany, Message, User, Worker
+from register.models import Address, Category, Company, City, Machine, MainCompany, Message, User, Worker
 
 
 @admin.register(MainCompany)
@@ -68,3 +68,11 @@ class UserAdmin(DjangoUserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'company')
     search_fields = ('username', 'email', 'first_name', 'last_name', 'company')
     ordering = ('username',)
+
+
+@admin.register(City)
+class CityAdmin(admin.ModelAdmin):
+    list_display = ('name', 'state_code', 'ibge_code', 'SIC', 'SCI')
+    list_filter = ('state_code',)
+    search_fields = ('name',)
+    readonly_fields = ('name', 'state', 'SIC', 'SCI')

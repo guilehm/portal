@@ -44,9 +44,9 @@ class MessageAdmin(admin.ModelAdmin):
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ('address', 'district', 'city', 'state')
-    list_filter = ('city', 'state')
+    list_display = ('address', 'district', 'city',)
     search_fields = ('address', 'district')
+    raw_id_fields = ('city',)
 
 
 @admin.register(User)

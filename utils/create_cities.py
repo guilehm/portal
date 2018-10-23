@@ -1,6 +1,6 @@
 import csv
-from register.models import City
 
+from register.models import City
 
 cities_to_create = []
 with open('utils/cities_ibge.csv', 'r') as file:

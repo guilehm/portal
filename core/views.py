@@ -90,6 +90,15 @@ def message_list(request):
 @login_required
 def worker_list(request):
     workers = Worker.objects.all()
+    search = request.GET.get('search')
+    if search:
+        search = search.split(" ")
+        workers = workers.filter(
+            reduce(lambda x, y: x | y, [Q(first_name__icontains=s) |
+                                        Q(last_name__icontains=s)
+                                        for s in search])
+        )
     return render(request, 'core/worker_list.html', {
-        'workers': workers
+        'workers': workers,
+        'search': search,
     })

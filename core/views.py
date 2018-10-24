@@ -1,9 +1,10 @@
-from utils.weather import get_weather_data
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
 from django.utils import timezone
+
+from utils.weather import get_weather_data
 
 
 @login_required

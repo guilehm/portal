@@ -1,4 +1,5 @@
-import urllib, json
+import json
+import urllib
 
 translation_dict = {
     '0': 'Tornado',

@@ -148,14 +148,13 @@ class Category(models.Model):
 
 
 class Message(models.Model):
-    title = models.CharField(max_length=100)
     message = models.TextField()
 
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return self.short_message
 
     @cached_property
     def code(self):
@@ -164,7 +163,7 @@ class Message(models.Model):
     @property
     def short_message(self):
         return '{short_message}...'.format(
-            short_message=self.message[:10]
+            short_message=self.message[:50]
         )
 
 

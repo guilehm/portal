@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load core_tags %}
 {% language 'pt-BR' %}
 <!DOCTYPE html>
 <html>
@@ -24,6 +25,7 @@
                 <div class="content-wrapper d-flex align-items-center auth theme-one bg-dark">
                     <div class="row w-100">
                         <div class="col-lg-4 mx-auto">
+                            <p class="text-center">{% logo_tag %}</p>
                             <div class="auto-form-wrapper">
                                 <form method="post">
                                     {% csrf_token %}

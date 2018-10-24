@@ -74,8 +74,16 @@ def category_list(request):
 @login_required
 def message_list(request):
     messages = Message.objects.all()
+    search = request.GET.get('search')
+    if search:
+        search = search.split(" ")
+        messages = messages.filter(
+            reduce(lambda x, y: x | y, [Q(message__icontains=s)
+                                        for s in search])
+        )
     return render(request, 'core/message_list.html', {
-        'messages': messages
+        'messages': messages,
+        'search': search,
     })
 
 

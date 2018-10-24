@@ -19,6 +19,7 @@ gunicorn = "*"
 "boto3" = "*"
 django-storages = "*"
 whitenoise = "*"
+django-redis = "*"
 
 [dev-packages]
 

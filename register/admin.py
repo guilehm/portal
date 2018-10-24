@@ -37,7 +37,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('code', 'short_message')
+    list_display = ('code', 'message')
     search_fields = ('description',)
     list_filter = ('date_added', 'date_changed')
 

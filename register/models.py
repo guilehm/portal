@@ -198,6 +198,7 @@ class User(AbstractUser):
     home_phone_number = models.CharField(max_length=20, null=True, blank=True)
     cell_phone_number = models.CharField(max_length=20, null=True, blank=True)
     work_phone_number = models.CharField(max_length=20, null=True, blank=True)
+    woeid = models.CharField(max_length=20, null=True, blank=True)
     address = models.ForeignKey(
         'register.Address',
         related_name='users',

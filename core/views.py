@@ -4,13 +4,17 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
+from utils.weather import get_weather_data
+
 
 @login_required
 def index(request):
     now = timezone.now()
-    return render(request, 'core/index.html', {
-        'now': now,
-    })
+    context = {'now': now}
+    data = get_weather_data(request.user.woeid or 455863)
+    context.update(data) if data else context
+
+    return render(request, 'core/index.html', context)
 
 
 def logout_view(request):

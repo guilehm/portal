@@ -1,7 +1,10 @@
+from functools import reduce
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.cache import cache
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
@@ -55,8 +58,16 @@ def index(request):
 @login_required
 def category_list(request):
     categories = Category.objects.all()
+    search = request.GET.get('search')
+    if search:
+        search = search.split(" ")
+        categories = categories.filter(
+            reduce(lambda x, y: x | y, [Q(description__icontains=s)
+                                        for s in search])
+        )
     return render(request, 'core/category_list.html', {
-        'categories': categories
+        'categories': categories,
+        'search': search,
     })
 
 

@@ -181,10 +181,13 @@ class Address(models.Model):
     date_changed = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.address
+        return 'Address #{id} ({address})'.format(
+            id=self.id,
+            address=self.address or ''
+        )
 
     class Meta:
-        verbose_name_plural = 'Addresses'
+        verbose_name_plural = 'addresses'
 
 
 class User(AbstractUser):

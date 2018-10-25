@@ -5,50 +5,6 @@ from django.db import models
 from django.utils.functional import cached_property
 
 
-class MainCompany(models.Model):
-    name = models.CharField(max_length=50)
-    commercial_name = models.CharField(max_length=100, blank=True, null=True)
-    registered_number = models.CharField(max_length=20, unique=True, db_index=True, null=True, blank=True)
-    email = models.EmailField(max_length=200, db_index=True, null=True, blank=True)
-    phone_number = models.CharField(max_length=20, null=True, blank=True)
-    website = models.CharField(max_length=100, unique=True, null=True, blank=True)
-    start_date = models.DateField(null=True, blank=True)
-    address = models.ForeignKey(
-        'register.Address',
-        related_name='entities',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
-    )
-    logo = models.ImageField(
-        null=True,
-        blank=True,
-        upload_to='register/maincompany/logo',
-    )
-    logo_thumb = models.ImageField(
-        null=True,
-        blank=True,
-        upload_to='register/maincompany/logothumb',
-    )
-
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_changed = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name_plural = 'main company'
-
-    def __str__(self):
-        return self.name
-
-    def clean(self):
-        if MainCompany.objects.exists() and not self.pk:
-            raise ValidationError('Only one main company is allowed')
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
-
 class Company(models.Model):
     name = models.CharField(max_length=50)
     commercial_name = models.CharField(max_length=100, blank=True, null=True)
@@ -64,6 +20,17 @@ class Company(models.Model):
         null=True,
         blank=True
     )
+    logo = models.ImageField(
+        null=True,
+        blank=True,
+        upload_to='register/company/logo',
+    )
+    logo_thumb = models.ImageField(
+        null=True,
+        blank=True,
+        upload_to='register/company/logothumb',
+    )
+    main_company = models.BooleanField(default=False)
 
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
@@ -73,6 +40,14 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        if Company.objects.filter(main_company=True).exists() and not self.pk:
+            raise ValidationError('Only one main company is allowed')
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
 
 class Machine(models.Model):

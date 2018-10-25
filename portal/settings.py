@@ -176,14 +176,19 @@ if os.getcwd() == '/app':
         'CacheControl': 'max-age=86400',
     }
 
-    REDIS_URL = urlparse(os.environ.get('REDIS_URL'))
+    cache_url = urlparse(os.environ.get('REDIS_URL'))
+
     CACHES = {
-        "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            'LOCATION': REDIS_URL,
-            "OPTIONS": {
-                "CLIENT_CLASS": "django_redis.client.DefaultClient"
-            },
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': '{}://{}:{}'.format(
+                cache_url.scheme, cache_url.hostname, cache_url.port
+            ),
             'TIMEOUT': CACHE_TIMEOUT,
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+                'PASSWORD': cache_url.password,
+                'DB': 0,
+            }
         }
     }

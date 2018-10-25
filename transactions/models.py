@@ -80,7 +80,6 @@ class EventStatus(models.Model):
         max_length=100,
         choices=STATUS_CHOICES,
         db_index=True,
-        editable=False
     )
 
     date_added = models.DateTimeField(auto_now_add=True)
@@ -91,6 +90,9 @@ class EventStatus(models.Model):
             id=self.id,
             status=self.status
         )
+
+    class Meta:
+        verbose_name_plural = 'event status'
 
 
 class ServiceOrder(models.Model):

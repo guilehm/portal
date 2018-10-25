@@ -121,7 +121,7 @@ class Worker(models.Model):
     def code(self):
         return f'{self.id:}'.zfill(3)
 
-    @cached_property
+    @property
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
 

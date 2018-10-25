@@ -5,7 +5,7 @@ from django.core.cache import cache
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
-from register.models import Category, Message
+from register.models import Category, Message, Worker
 from utils.weather import get_weather_data
 
 
@@ -65,4 +65,12 @@ def message_list(request):
     messages = Message.objects.all()
     return render(request, 'core/message_list.html', {
         'messages': messages
+    })
+
+
+@login_required
+def worker_list(request):
+    workers = Worker.objects.all()
+    return render(request, 'core/worker_list.html', {
+        'workers': workers
     })

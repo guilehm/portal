@@ -97,7 +97,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-block">Painel</button>
+                    <a class="btn btn-success btn-block" href="{% url 'core:index' %}">Painel</a>
                 </div>
             </li>
             <li class="nav-item">
@@ -119,7 +119,7 @@
                             <a class="nav-link" href="{% url 'core:message-list' %}">Mensagens Padrão</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Técnicos</a>
+                            <a class="nav-link" href="{% url 'core:worker-list' %}">Técnicos</a>
                         </li>
                     </ul>
                 </div>

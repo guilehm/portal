@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from transactions.models import DebitNote, DebitNoteItem, Event, Request, ServiceOrder
+from transactions.models import DebitNote, DebitNoteItem, Event, EventStatus, Request, ServiceOrder
 
 
 class DebitNoteItemInline(admin.TabularInline):
@@ -14,6 +14,12 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('code', 'machine', 'category', 'subject')
     list_filter = ('machine', 'category', 'date_added', 'date_changed')
     readonly_fields = ('company',)
+
+
+@admin.register(EventStatus)
+class EventStatusAdmin(admin.ModelAdmin):
+    list_display = ('event', 'status', 'date_added')
+    list_filter = ('status', 'date_added', 'date_changed')
 
 
 @admin.register(ServiceOrder)

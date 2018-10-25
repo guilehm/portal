@@ -1,12 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 
-from register.models import Address, Category, Company, Machine, MainCompany, Message, User, Worker
-
-
-@admin.register(MainCompany)
-class MainCompanyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'registered_number', 'email')
+from register.models import Address, Category, Company, Machine, Message, User, Worker
 
 
 @admin.register(Company)

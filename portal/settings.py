@@ -176,13 +176,11 @@ if os.getcwd() == '/app':
         'CacheControl': 'max-age=86400',
     }
 
-    cache_url = urlparse(os.environ.get('REDIS_URL'))
+    REDIS_URL = urlparse(os.environ.get('REDIS_URL'))
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
-            'LOCATION': '{}://{}:{}'.format(
-                cache_url.scheme, cache_url.hostname, cache_url.port
-            ),
+            'LOCATION': REDIS_URL,
             "OPTIONS": {
                 "CLIENT_CLASS": "django_redis.client.DefaultClient"
             },

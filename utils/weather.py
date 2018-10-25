@@ -1,6 +1,8 @@
 import json
 import urllib
 
+from django.core.cache import cache
+
 translation_dict = {
     '0': 'Tornado',
     '1': 'Tempestade tropical',
@@ -127,7 +129,7 @@ def get_weather_data(woeid=455863):
         condition = translation_dict.get(str(condition_code))
         condition_icon = icon_dict.get(str(condition_code))
 
-        return {
+        formatted_data = {
             'city': city,
             'region': region,
             'temperature': temperature,
@@ -135,5 +137,8 @@ def get_weather_data(woeid=455863):
             'condition_icon': condition_icon,
             'forecast': forecast,
         }
+        cache.set(str(woeid), formatted_data)
+        return formatted_data
+
     except (urllib.error.URLError, KeyError):
         pass

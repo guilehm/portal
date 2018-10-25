@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.cache import cache
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
@@ -11,9 +12,13 @@ from utils.weather import get_weather_data
 def index(request):
     now = timezone.now()
     context = {'now': now}
-    data = get_weather_data(request.user.woeid or 455863)
-    context.update(data) if data else context
-
+    woeid = request.user.woeid or 455863
+    has_data = cache.get(str(woeid))
+    if not has_data:
+        data = get_weather_data(woeid)
+        context.update(data) if data else context
+    else:
+        context.update(has_data)
     return render(request, 'core/index.html', context)
 
 

@@ -1,0 +1,72 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Categorias</h4>
+                            <p class="card-description">
+                                Relação de categorias
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Código</th>
+                                        <th>Descrição</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for category in categories %}
+                                            <tr>
+                                                <td class="py-1">
+                                                    {% if category.active %}
+                                                        <label class="badge badge-success">Ativa</label>
+                                                    {% else %}
+                                                        <label class="badge badge-danger">Inativa</label>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {{ category.code }}
+                                                </td>
+                                                <td>
+                                                    {{ category.description }}
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group dropdown">
+                                                        <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            opções
+                                                        </button>
+                                                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 30px, 0px);">
+                                                            <a class="dropdown-item" href="#">
+                                                                <i class="fa fa-eye fa-fw"></i> visualizar
+                                                            </a>
+                                                            <a class="dropdown-item" href="#">
+                                                                <i class="fa fa-edit fa-fw"></i> editar
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item" href="#">
+                                                                <i class="fa fa-times text-danger fa-fw"></i>
+                                                                excluir
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% empty %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

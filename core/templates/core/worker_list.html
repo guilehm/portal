@@ -7,9 +7,9 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Categorias</h4>
+                            <h4 class="card-title">Técnicos</h4>
                             <p class="card-description">
-                                Relação de categorias
+                                Relação de técnicos
                             </p>
                             <div class="table-responsive">
                                 <table class="table table-striped">
@@ -17,25 +17,25 @@
                                     <tr>
                                         <th>Status</th>
                                         <th>Código</th>
-                                        <th>Descrição</th>
+                                        <th>Nome</th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        {% for category in categories %}
+                                        {% for worker in workers %}
                                             <tr>
                                                 <td class="py-1">
-                                                    {% if category.active %}
-                                                        <label class="badge badge-success">ativa</label>
+                                                    {% if worker.active %}
+                                                        <label class="badge badge-success">habilitado</label>
                                                     {% else %}
-                                                        <label class="badge badge-danger">inativa</label>
+                                                        <label class="badge badge-danger">desativado</label>
                                                     {% endif %}
                                                 </td>
                                                 <td>
-                                                    {{ category.code }}
+                                                    {{ worker.code }}
                                                 </td>
                                                 <td>
-                                                    {{ category.description }}
+                                                    {{ worker.full_name }}
                                                 </td>
                                                 <td>
                                                     <div class="btn-group dropdown">

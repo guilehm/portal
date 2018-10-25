@@ -6,7 +6,7 @@ from django.utils.functional import cached_property
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, db_index=True)
     commercial_name = models.CharField(max_length=100, blank=True, null=True)
     registered_number = models.CharField(max_length=20, unique=True, db_index=True, null=True, blank=True)
     email = models.EmailField(max_length=200, db_index=True, null=True, blank=True)
@@ -37,6 +37,7 @@ class Company(models.Model):
 
     class Meta:
         verbose_name_plural = 'companies'
+        ordering = ('id',)
 
     def __str__(self):
         return self.name
@@ -105,7 +106,7 @@ class Worker(models.Model):
 
 
 class Category(models.Model):
-    description = models.CharField(max_length=100)
+    description = models.CharField(max_length=100, db_index=True)
     active = models.BooleanField(default=True, db_index=True)
 
     date_added = models.DateTimeField(auto_now_add=True)
@@ -120,10 +121,11 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'Categories'
+        ordering = ('id',)
 
 
 class Message(models.Model):
-    message = models.TextField()
+    message = models.TextField(db_index=True)
 
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
@@ -140,6 +142,9 @@ class Message(models.Model):
         return '{short_message}...'.format(
             short_message=self.message[:50]
         )
+
+    class Meta:
+        ordering = ('id',)
 
 
 class Address(models.Model):

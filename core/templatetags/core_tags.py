@@ -9,13 +9,15 @@ register = template.Library()
 @register.inclusion_tag('core/tags/logo_tag.html')
 def logo_tag():
     company = MainCompany.objects.first()
-    return {'logo': company.logo}
+    if company:
+        return {'logo': company.logo}
 
 
 @register.inclusion_tag('core/tags/logo_mini_tag.html')
 def logo_mini_tag():
     company = MainCompany.objects.first()
-    return {'logo': company.logo_thumb}
+    if company:
+        return {'logo': company.logo_thumb}
 
 
 @register.filter(name='get_icon')

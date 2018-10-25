@@ -56,6 +56,45 @@ class Event(models.Model):
         super().save(*args, **kwargs)
 
 
+class EventStatus(models.Model):
+    NEW = 'new'
+    PENDING_CUSTOMER = 'pending_customer'
+    PENDING_COMPANY = 'pending_company'
+    CLOSED = 'closed'
+    SERVICE_ORDER = 'service_order'
+
+    STATUS_CHOICES = (
+        (NEW, 'New'),
+        (PENDING_CUSTOMER, 'Pending Customer'),
+        (PENDING_COMPANY, 'Pending Company'),
+        (CLOSED, 'Closed'),
+        (SERVICE_ORDER, 'Service Order')
+    )
+    event = models.ForeignKey(
+        'transactions.Event',
+        related_name='status',
+        db_index=True,
+        on_delete=models.CASCADE
+    )
+    status = models.CharField(
+        max_length=100,
+        choices=STATUS_CHOICES,
+        db_index=True,
+    )
+
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_changed = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'EventStatus #{id} ({status})'.format(
+            id=self.id,
+            status=self.status
+        )
+
+    class Meta:
+        verbose_name_plural = 'event status'
+
+
 class ServiceOrder(models.Model):
     LOW = 'low'
     NORMAL = 'normal'
@@ -110,15 +149,15 @@ class ServiceOrder(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
 
-    @cached_property
-    def code(self):
-        return f'{self.id:}'.zfill(6)
-
     def __str__(self):
         return 'Service Order #{id} ({subject})'.format(
             id=self.id,
             subject=self.subject
         )
+
+    @cached_property
+    def code(self):
+        return f'{self.id:}'.zfill(6)
 
     def save(self, *args, **kwargs):
         if not self.id:

@@ -5,21 +5,8 @@ from django.core.cache import cache
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
+from register.models import Category
 from utils.weather import get_weather_data
-
-
-@login_required
-def index(request):
-    now = timezone.now()
-    context = {'now': now}
-    woeid = request.user.woeid or 455863
-    has_data = cache.get(str(woeid))
-    if not has_data:
-        data = get_weather_data(woeid)
-        context.update(data) if data else context
-    else:
-        context.update(has_data)
-    return render(request, 'core/index.html', context)
 
 
 def logout_view(request):
@@ -48,4 +35,26 @@ def login_view(request):
     return render(request, 'core/login.html', {
         'form': form,
         'ip': ip,
+    })
+
+
+@login_required
+def index(request):
+    now = timezone.now()
+    context = {'now': now}
+    woeid = request.user.woeid or 455863
+    has_data = cache.get(str(woeid))
+    if not has_data:
+        data = get_weather_data(woeid)
+        context.update(data) if data else context
+    else:
+        context.update(has_data)
+    return render(request, 'core/index.html', context)
+
+
+@login_required
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'core/category_list.html', {
+        'categories': categories
     })

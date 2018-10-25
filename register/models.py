@@ -43,7 +43,8 @@ class Company(models.Model):
         return self.name
 
     def clean(self):
-        if Company.objects.filter(main_company=True).exists() and not self.pk:
+        company = Company.objects.filter(main_company=True).first()
+        if company and self.main_company and company.id != self.id:
             raise ValidationError('Only one main company is allowed')
 
     def save(self, *args, **kwargs):

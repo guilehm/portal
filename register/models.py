@@ -189,6 +189,11 @@ class User(AbstractUser):
         null=True,
         blank=True
     )
+    picture_profile = models.ImageField(
+        upload_to='register/user/picture-profile/',
+        null=True,
+        blank=True,
+    )
 
     @property
     def phone_number(self):

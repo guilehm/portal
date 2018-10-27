@@ -43,7 +43,11 @@
                             {% endif %}
                         {% endif %}
                     </span>
-                    <img class="img-xs rounded-circle" src="{% static 'core/images/samples/profile-placeholder.jpg' %}">
+                    {% if not user.picture_profile %}
+                        <img class="img-xs rounded-circle" src="{% static 'core/images/samples/profile-placeholder.jpg' %}">
+                    {% else %}
+                        <img class="img-xs rounded-circle" src="{{ user.picture_profile.url }}">
+                    {% endif %}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                     <a class="dropdown-item p-0">

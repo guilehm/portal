@@ -84,7 +84,11 @@
                 <div class="nav-link">
                     <div class="user-wrapper">
                         <div class="profile-image">
-                            <img src="{% static 'core/images/samples/profile-placeholder.jpg' %}" alt="image" class="profile-pic">
+                            {% if not user.picture_profile %}
+                                <img src="{% static 'core/images/samples/profile-placeholder.jpg' %}" alt="image" class="profile-pic">
+                            {% else %}
+                                <img src="{{ user.picture_profile.url }}" alt="image" class="profile-pic">
+                            {% endif %}
                         </div>
                         <div class="text-wrapper">
                             {% if user.is_authenticated %}

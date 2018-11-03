@@ -21,6 +21,7 @@ django-storages = "*"
 whitenoise = "*"
 django-redis = "*"
 apscheduler = "*"
+model-mommy = "*"
 
 [dev-packages]
 

@@ -7,3 +7,6 @@ scheduler = BackgroundScheduler()
 @scheduler.scheduled_job('interval', minutes=2)
 def create_message():
     return mommy.make('register.Message')
+
+
+scheduler.start()

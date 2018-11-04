@@ -1,16 +1,14 @@
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+from model_mommy import mommy
 
-sched = BlockingScheduler()
+from register.models import Message
 
-
-@sched.scheduled_job('interval', minutes=3)
-def timed_job():
-    print('This job is run every three minutes.')
+scheduler = BackgroundScheduler()
 
 
-@sched.scheduled_job('cron', day_of_week='mon-fri', hour=17)
-def scheduled_job():
-    print('This job is run every weekday at 5pm.')
+@scheduler.scheduled_job('interval', minutes=2)
+def create_message():
+    return mommy.make(Message)
 
 
-sched.start()
+scheduler.start()

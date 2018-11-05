@@ -1,6 +1,9 @@
+import django
+django.setup()
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from register.models import Message
+
 
 scheduler = BackgroundScheduler()
 

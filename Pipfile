@@ -14,7 +14,6 @@ django-pytest = "*"
 dj-database-url = "*"
 dj-static = "*"
 "static3" = "*"
-"psycopg2" = "*"
 gunicorn = "*"
 "boto3" = "*"
 django-storages = "*"
@@ -22,6 +21,7 @@ whitenoise = "*"
 django-redis = "*"
 apscheduler = "*"
 model-mommy = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
